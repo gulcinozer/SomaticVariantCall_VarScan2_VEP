@@ -1,0 +1,14 @@
+=============================================================
+             sample_pairs.txt
+=============================================================  
+This file should list sample names and bam files:
+Column 1: Sample name (will be used to laebls jobs etc.)
+Column 2: Output prefix (should be unique)
+Column 3: Normal sample name
+Column 4: Tumor sample name
+Column 5: Normal BAM file
+Column 6: Tumor BAM file
+
+#113585  113585_TM_vs_BL BL_113585       TM_113585       BL_113585.final.bam     TM_113585.final.bam
+
+

@@ -1,0 +1,32 @@
+#!/bin/bash
+#PBS -j oe
+#PBS -l nodes=1:ppn=28
+#PBS -l walltime=6:00:00
+#PBS -A PCON0005
+
+cd $PBS_O_WORKDIR
+
+/fs/project/PCON0005/home/syilmaz/programs/samtools-0.1.19/samtools mpileup -q 1 -f \
+/fs/project/PCON0005/BISR/reference/Homo_sapiens/hg19/hg19_GRCh37/human_g1k_v37.fasta \
+$NORMALBAM > $NORMALNAME.mpileup
+
+
+/fs/project/PCON0005/home/syilmaz/programs/samtools-0.1.19/samtools mpileup -q 1 -f \
+/fs/project/PCON0005/BISR/reference/Homo_sapiens/hg19/hg19_GRCh37/human_g1k_v37.fasta \
+$TUMORBAM > $TUMORNAME.mpileup
+
+
+java -jar /fs/project/PCON0005/home/gozer/programs/VarScan.v2.3.9.jar somatic \
+$NORMALNAME.mpileup  $TUMORNAME.mpileup $OUTPUT  --output-vcf 1 \
+--min-coverage 20 --min-var-freq 0.08 --somatic-p-value 0.05 
+#--validation 1
+
+
+java -jar  /fs/project/PCON0005/home/gozer/programs/VarScan.v2.3.9.jar processSomatic $OUTPUT.snp.vcf
+
+java -jar  /fs/project/PCON0005/home/gozer/programs/VarScan.v2.3.9.jar processSomatic $OUTPUT.indel.vcf
+
+
+
+
+

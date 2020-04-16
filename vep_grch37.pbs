@@ -1,0 +1,31 @@
+#!/bin/bash
+#PBS -j oe
+#PBS -l nodes=1:ppn=28
+#PBS -l walltime=4:00:00
+#PBS -A PCON0005
+
+cd $PBS_O_WORKDIR
+
+export PATH=$PATH:/fs/project/PCON0005/BISR/programs/ensembl-vep/:/fs/project/PCON0005/BISR/programs/tabix-0.2.6
+export PATH=$PATH:/users/PAS1203/osu1044/.vep/homo_sapiens
+export PATH=$PATH:/users/PAS1203/osu1044/.vep/Plugins
+
+
+
+vep --af --af_1kg --af_esp --af_gnomad --max_af --biotype \
+--check_existing --distance 5000 --hgvs --pick_allele \
+--polyphen b --pubmed --regulatory --sift b \
+--symbol --canonical --transcript_version --tsl \
+--species homo_sapiens \
+--chr 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,X,Y \
+--fork 28 \
+--cache \
+--dir /users/PAS1203/osu1044/.vep/ \
+--dir_cache /users/PAS1203/osu1044/.vep/ \
+--dir_plugins /users/PAS1203/osu1044/.vep/Plugins \
+--cache_version 92 --port 3337 \
+--input_file $INPUT  \
+--output_file $OUTPUT --force_overwrite --vcf
+
+
+# --cache_version 92 --port 3337 ==> determines the genome version, 94 is GRCh38, no need for port number GRCh38 is default
